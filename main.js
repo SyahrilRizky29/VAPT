@@ -661,45 +661,58 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loginForm').style.display = 'block';
   };
 
-  document.getElementById('loginFormElement').addEventListener('submit', (e) => {
+  document.getElementById('loginFormElement').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
+    const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
 
     try {
-      authService.login(email, password);
-      closeAuthModal();
-      updateAuthButton();
-      updateCartBadge();
-      showAlert('Login berhasil!');
-      navigateTo('home');
+      const ok = await authService.login(email, password);
+      if (ok) {
+        closeAuthModal();
+        updateAuthButton();
+        updateCartBadge();
+        showAlert('Login berhasil!');
+        navigateTo('home');
+      } else {
+        // tampilkan pesan gagal
+        showAlert('Email atau password salah!', 'error');
+      }
     } catch (error) {
-      showAlert(error.message, 'error');
+      console.error('Login error', error);
+      showAlert('Terjadi kesalahan saat login. Cek console.', 'error');
     }
   });
 
-  document.getElementById('registerFormElement').addEventListener('submit', (e) => {
+
+  document.getElementById('registerFormElement').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const userData = {
-      email: document.getElementById('registerEmail').value,
+      email: document.getElementById('registerEmail').value.trim(),
       password: document.getElementById('registerPassword').value,
       confirmPassword: document.getElementById('registerConfirmPassword').value,
-      fullName: document.getElementById('registerName').value,
+      name: document.getElementById('registerName').value, // cat: auth.register expects name
       phone: document.getElementById('registerPhone').value,
       address: document.getElementById('registerAddress').value
     };
 
     try {
-      authService.register(userData);
-      showAlert('Registrasi berhasil! Silakan login.');
-      document.getElementById('registerForm').style.display = 'none';
-      document.getElementById('loginForm').style.display = 'block';
-      document.getElementById('registerFormElement').reset();
+      const ok = await authService.register(userData);
+      if (ok) {
+        showAlert('Registrasi berhasil! Silakan login.');
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('registerFormElement').reset();
+      } else {
+        showAlert('Gagal registrasi. Email mungkin sudah terdaftar.', 'error');
+      }
     } catch (error) {
-      showAlert(error.message, 'error');
+      console.error('Register error', error);
+      showAlert('Terjadi kesalahan saat registrasi. Cek console.', 'error');
     }
   });
+
 
   document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', (e) => {

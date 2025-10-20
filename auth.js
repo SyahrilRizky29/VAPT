@@ -13,7 +13,6 @@ export class AuthService {
   async register(user) {
     const users = JSON.parse(localStorage.getItem("users")) || [];
     if (users.some(u => u.email === user.email)) {
-      alert("Email sudah terdaftar!");
       return false;
     }
 
@@ -29,7 +28,6 @@ export class AuthService {
 
     users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
-    alert("Registrasi berhasil!");
     return true;
   }
 
@@ -39,7 +37,6 @@ export class AuthService {
     const user = users.find(u => u.email === email && u.passwordHash === passwordHash);
 
     if (!user) {
-      alert("Email atau password salah!");
       return false;
     }
 
@@ -56,8 +53,6 @@ export class AuthService {
       phone: user.phone,
       address: user.address
     }));
-
-    alert("Login berhasil!");
     return true;
   }
 

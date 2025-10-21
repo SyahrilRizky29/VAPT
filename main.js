@@ -208,7 +208,7 @@ function renderCheckoutPage() {
           <form id="checkoutForm">
             <div class="form-group">
               <label>Nama Lengkap</label>
-              <input type="text" value="${user.fullName}" readonly />
+              <input type="text" value="${user.name}" required />
             </div>
             <div class="form-group">
               <label>No. Telepon</label>
@@ -268,11 +268,11 @@ function renderProfilePage() {
       <div class="profile-container">
         <div class="profile-card">
           <div class="profile-avatar">
-            <div class="avatar-circle">${user.fullName.charAt(0).toUpperCase()}</div>
+            <div class="avatar-circle">${user.name.charAt(0).toUpperCase()}</div>
           </div>
 
           <div class="profile-info">
-            <h3>${user.fullName}</h3>
+            <h3>${user.name}</h3>
             <p class="profile-email">${user.email}</p>
           </div>
 
@@ -293,7 +293,7 @@ function renderProfilePage() {
 
           <div class="detail-group">
             <label>Nama Lengkap</label>
-            <div class="detail-value">${user.fullName}</div>
+            <div class="detail-value">${user.name}</div>
           </div>
 
           <div class="detail-group">
@@ -562,7 +562,7 @@ function handleEditProfile() {
         <form id="editProfileForm">
           <div class="form-group">
             <label>Nama Lengkap</label>
-            <input type="text" id="editFullName" value="${user.fullName}" required />
+            <input type="text" id="editFullName" value="${user.name}" required />
           </div>
 
           <div class="form-group">
